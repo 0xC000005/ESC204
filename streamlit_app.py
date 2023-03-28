@@ -77,10 +77,8 @@ def main():
         if 'slider_node_size' not in st.session_state:
             st.session_state.slider_node_size = 6
 
-        slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df),
-                                 value=st.session_state.slider_movement, step=1)
-        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20,
-                              value=st.session_state.slider_node_size, step=1)
+        slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df), value=st.session_state.slider_movement, step=1)
+        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=st.session_state.slider_node_size, step=1)
 
         st.session_state.slider_movement = slider_value
         st.session_state.slider_node_size = node_size
