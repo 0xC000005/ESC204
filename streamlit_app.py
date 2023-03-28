@@ -54,7 +54,14 @@ def main():
     timestamp,latitude,longitude,fix_status,HDOP,satellites_in_use
     2023-03-28T09:00:00,43.662623,-79.397066,3,1.2,7
     2023-03-28T09:00:10,43.662718,-79.396846,3,1.1,8
-    ...
+    2023-03-28T09:00:20,43.662820,-79.396640,3,1.0,9
+    2023-03-28T09:00:30,43.662917,-79.396458,2,1.1,8
+    2023-03-28T09:00:40,43.663011,-79.396249,2,1.2,7
+    2023-03-28T09:00:50,43.663076,-79.396079,1,1.3,6
+    2023-03-28T09:01:00,43.663192,-79.395890,3,1.2,7
+    2023-03-28T09:01:10,43.663284,-79.395698,2,1.3,6
+    2023-03-28T09:01:20,43.663376,-79.395495,3,1.1,8
+    2023-03-28T09:01:30,43.663474,-79.395321,2,1.2,7
     ```
     """)
 
@@ -66,8 +73,9 @@ def main():
         st.markdown("### Map Visualization")
 
         slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df), value=len(df),
-                                 step=1)
-        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=6, step=1)
+                                 step=1, key="slider_movement")
+        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=6, step=1,
+                              key="slider_node_size")
 
         plot_movement(df, slider_value, node_size)
         st.markdown("### Signal Strength")
@@ -76,13 +84,13 @@ def main():
 
         while True:
             slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df),
-                                     value=slider_value, step=1)
-            node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=node_size, step=1)
+                                     value=slider_value, step=1, key="slider_movement_update")
+            node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=node_size, step=1,
+                                  key="slider_node_size_update")
             plot_movement(df, slider_value, node_size)
             if not st.button("Update"):
                 break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-    
