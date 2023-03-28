@@ -70,11 +70,19 @@ def main():
         node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=6, step=1)
 
         plot_movement(df, slider_value, node_size)
-
         st.markdown("### Signal Strength")
         st.write("Signal strength is represented by the Horizontal Dilution of Precision (HDOP) in the table below.")
         st.write(df[['timestamp', 'HDOP']])
 
+        while True:
+            slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df),
+                                     value=slider_value, step=1)
+            node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=node_size, step=1)
+            plot_movement(df, slider_value, node_size)
+            if not st.button("Update"):
+                break
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
+    
