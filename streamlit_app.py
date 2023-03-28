@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
+import io
 import time
 
 def process_csv_data(csv_string):
-    df = pd.read_csv(pd.StringIO(csv_string), parse_dates=['timestamp'])
+    df = pd.read_csv(io.StringIO(csv_string), parse_dates=['timestamp'])
     return df
 
 def plot_movement(df):
