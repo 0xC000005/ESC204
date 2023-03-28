@@ -25,12 +25,12 @@ def plot_movement(df):
         opacity=0.8,
         stroked=True,
         filled=True,
-        radius_scale=10,
-        radius_min_pixels=5,
-        radius_max_pixels=100,
+        radius_scale=6,
+        radius_min_pixels=3,
+        radius_max_pixels=50,
         line_width_min_pixels=1,
         get_position=["longitude", "latitude"],
-        get_radius=30,
+        get_radius=20,
         get_fill_color="[200, 30, 0, 160]",
         get_line_color=[255, 255, 255],
     )
@@ -64,7 +64,6 @@ def main():
 
     csv_input = st.text_area("Paste your CSV formatted text here:")
     display_button = st.button("Display")
-    replay_button = st.button("Replay Animation")
 
     if display_button and csv_input:
         df = process_csv_data(csv_input)
@@ -74,7 +73,8 @@ def main():
         st.write("Signal strength is represented by the Horizontal Dilution of Precision (HDOP) in the table below.")
         st.write(df[['timestamp', 'HDOP']])
 
-    if replay_button and df is not None:
+    replay_button = st.button("Replay Animation")
+    if replay_button and 'df' in locals():
         st.markdown("### Animated Movement")
         st.markdown("The animation below shows the gradual movement of the GNSS module.")
         play_animation(df)
