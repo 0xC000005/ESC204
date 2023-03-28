@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
 import io
-import time
 import pydeck as pdk
-import numpy as np
+
 
 def process_csv_data(csv_string):
     df = pd.read_csv(io.StringIO(csv_string), parse_dates=['timestamp'])
     return df
 
-def plot_movement(df):
+
+def plot_movement(df, slider_value, node_size):
     view_state = pdk.ViewState(
         latitude=df['latitude'].mean(),
         longitude=df['longitude'].mean(),
@@ -20,12 +20,12 @@ def plot_movement(df):
 
     layer = pdk.Layer(
         "ScatterplotLayer",
-        df,
+        df.iloc[:slider_value],
         pickable=True,
         opacity=0.8,
         stroked=True,
         filled=True,
-        radius_scale=6,
+        radius_scale=node_size,
         radius_min_pixels=3,
         radius_max_pixels=50,
         line_width_min_pixels=1,
@@ -35,21 +35,17 @@ def plot_movement(df):
         get_line_color=[255, 255, 255],
     )
 
-    st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v10", layers=[layer], initial_view_state=view_state, tooltip={"text": "HDOP: {HDOP}"}))
+    st.pydeck_chart(
+        pdk.Deck(map_style="mapbox://styles/mapbox/light-v10", layers=[layer], initial_view_state=view_state,
+                 tooltip={"text": "HDOP: {HDOP}"}))
 
-def play_animation(df):
-    map_animation = st.empty()
-    for idx, row in df.iterrows():
-        current_location = pd.DataFrame([row], columns=df.columns)
-        plot_movement(df.iloc[:idx+1])
-        time.sleep(0.5)
 
 def main():
     st.set_page_config(page_title="GNSS Module Visualization", layout="wide")
     st.title("GNSS Module Visualization")
     st.markdown("""
     Welcome to the GNSS Module Visualization app!
-    Please paste your CSV formatted text below, and press "Display" to show the animated movement.
+    Please paste your CSV formatted text below, and press "Display" to show the movement with a slider.
     """)
 
     st.markdown("### Example CSV format")
@@ -68,16 +64,17 @@ def main():
     if display_button and csv_input:
         df = process_csv_data(csv_input)
         st.markdown("### Map Visualization")
-        plot_movement(df)
+
+        slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df), value=len(df),
+                                 step=1)
+        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=6, step=1)
+
+        plot_movement(df, slider_value, node_size)
+
         st.markdown("### Signal Strength")
         st.write("Signal strength is represented by the Horizontal Dilution of Precision (HDOP) in the table below.")
         st.write(df[['timestamp', 'HDOP']])
 
-    replay_button = st.button("Replay Animation")
-    if replay_button and 'df' in locals():
-        st.markdown("### Animated Movement")
-        st.markdown("The animation below shows the gradual movement of the GNSS module.")
-        play_animation(df)
 
 if __name__ == "__main__":
     main()
