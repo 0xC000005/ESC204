@@ -1,43 +1,26 @@
 import streamlit as st
 import pandas as pd
-import io
-import pydeck as pdk
+import time
+import folium
+from streamlit_folium import folium_static
 
 
 def process_csv_data(csv_string):
-    df = pd.read_csv(io.StringIO(csv_string), parse_dates=['timestamp'])
+    df = pd.read_csv(pd.StringIO(csv_string), parse_dates=['timestamp'])
     return df
 
 
-def plot_movement(df, slider_value, node_size):
-    view_state = pdk.ViewState(
-        latitude=df['latitude'].mean(),
-        longitude=df['longitude'].mean(),
-        zoom=15,
-        pitch=0,
-        bearing=0
-    )
-
-    layer = pdk.Layer(
-        "ScatterplotLayer",
-        df.iloc[:slider_value],
-        pickable=True,
-        opacity=0.8,
-        stroked=True,
-        filled=True,
-        radius_scale=node_size,
-        radius_min_pixels=3,
-        radius_max_pixels=50,
-        line_width_min_pixels=1,
-        get_position=["longitude", "latitude"],
-        get_radius=20,
-        get_fill_color="[200, 30, 0, 160]",
-        get_line_color=[255, 255, 255],
-    )
-
-    return pdk.Deck(map_style="mapbox://styles/mapbox/light-v10", layers=[layer], initial_view_state=view_state,
-                    tooltip={"text": "HDOP: {HDOP}"})
-
+def plot_movement(df, point_radius):
+    m = folium.Map(location=[df['latitude'].mean(), df['longitude'].mean()], zoom_start=12)
+    for index, row in df.iterrows():
+        folium.CircleMarker(
+            location=[row['latitude'], row['longitude']],
+            radius=point_radius,
+            color='red',
+            fill=True,
+            fill_color='red'
+        ).add_to(m)
+    folium_static(m)
 
 
 def main():
@@ -45,52 +28,17 @@ def main():
     st.title("GNSS Module Visualization")
     st.markdown("""
     Welcome to the GNSS Module Visualization app!
-    Please paste your CSV formatted text below, and press "Display" to show the movement with a slider.
-    """)
-
-    st.markdown("### Example CSV format")
-    st.markdown("""
-    ```
-    timestamp,latitude,longitude,fix_status,HDOP,satellites_in_use
-    2023-03-28T09:00:00,43.662623,-79.397066,3,1.2,7
-    2023-03-28T09:00:10,43.662718,-79.396846,3,1.1,8
-    2023-03-28T09:00:20,43.662820,-79.396640,3,1.0,9
-    2023-03-28T09:00:30,43.662917,-79.396458,2,1.1,8
-    2023-03-28T09:00:40,43.663011,-79.396249,2,1.2,7
-    2023-03-28T09:00:50,43.663076,-79.396079,1,1.3,6
-    2023-03-28T09:01:00,43.663192,-79.395890,3,1.2,7
-    2023-03-28T09:01:10,43.663284,-79.395698,2,1.3,6
-    2023-03-28T09:01:20,43.663376,-79.395495,3,1.1,8
-    2023-03-28T09:01:30,43.663474,-79.395321,2,1.2,7
-    ```
+    Please paste your CSV formatted text below, and press "Display" to show the animated movement.
     """)
 
     csv_input = st.text_area("Paste your CSV formatted text here:")
     display_button = st.button("Display")
 
     if display_button and csv_input:
-        df = process_csv_data(csv_input)
         st.markdown("### Map Visualization")
-
-        if 'slider_movement' not in st.session_state:
-            st.session_state.slider_movement = len(df)
-        if 'slider_node_size' not in st.session_state:
-            st.session_state.slider_node_size = 6
-
-        slider_value = st.slider("Move the slider to see the movement", min_value=1, max_value=len(df), value=st.session_state.slider_movement, step=1)
-        node_size = st.slider("Adjust the size of the nodes", min_value=1, max_value=20, value=st.session_state.slider_node_size, step=1)
-
-        st.session_state.slider_movement = slider_value
-        st.session_state.slider_node_size = node_size
-
-        map_placeholder = st.empty()
-        plot_movement(df, slider_value, node_size)
-
-        update_button = st.button("Update")
-        if update_button:
-            st.session_state.slider_movement = slider_value
-            st.session_state.slider_node_size = node_size
-            plot_movement(df, slider_value, node_size)
+        df = process_csv_data(csv_input)
+        point_radius = st.slider("Point size", min_value=1, max_value=50, value=5, step=1)
+        plot_movement(df, point_radius)
 
 
 if __name__ == "__main__":
