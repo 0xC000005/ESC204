@@ -11,6 +11,9 @@ def process_csv_data(csv_string):
     return df
 
 
+# Rest of the code remains unchanged.
+
+
 def plot_movement(df, point_radius):
     m = folium.Map(location=[df['latitude'].mean(), df['longitude'].mean()], zoom_start=13)
 
