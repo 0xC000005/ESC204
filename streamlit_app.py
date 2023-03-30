@@ -9,6 +9,16 @@ from datetime import datetime
 st.title("GNSS Location Movement Logs Visualization")
 st.write("Visualize GNSS location movement logs interactively with Streamlit")
 
+st.markdown("### Example CSV format")
+st.markdown("""
+```
+timestamp,latitude,longitude,fix_status,HDOP,satellites_in_use
+2023-03-28T09:00:00,43.662623,-79.397066,3,1.2,7
+2023-03-28T09:00:10,43.662718,-79.396846,3,1.1,8
+...
+```
+""")
+
 # File uploader
 uploaded_file = st.sidebar.file_uploader("Upload your GNSS log file in CSV format", type=["csv"])
 
