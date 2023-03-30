@@ -1,22 +1,18 @@
-function receivedPowerDbm = simulateSignalStrength(transmitterPowerDbm, distance, attenuation)
+function receivedPowerDbm = simulateSignalStrength(transmitterPowerDbm, transmitterGain, receiverGain, distances, attenuationFactors)
     % Constants
-    frequency = 2.4e9; % BLE frequency: 2.4 GHz
-    speedOfLight = 3e8;
+    speedOfLight = 3e8; % Speed of light in meters/second
+    frequency = 1575.42e6; % L1 GPS frequency in Hz
     wavelength = speedOfLight / frequency;
 
-    % Transmitter and receiver characteristics
-    transmitterGain = 1;
-    receiverGain = 1;
+    % Convert transmitter power to watts
+    transmitterPowerWatts = 10^((transmitterPowerDbm - 30) / 10);
 
-    % Convert transmitter power from dBm to Watts
-    transmitterPowerWatts = 10 ^ (transmitterPowerDbm / 10) / 1000;
+    % Calculate the received power in watts using the free space path loss formula
+    receivedPowerWattsFreeSpace = (transmitterPowerWatts * (10^(transmitterGain / 10)) * (10^(receiverGain / 10)) * (wavelength .^ 2)) ./ ((4 * pi * distances) .^ 2);
 
-    % Friis Transmission Formula
-    receivedPowerWattsFreeSpace = (transmitterPowerWatts * transmitterGain * receiverGain * (wavelength ^ 2)) / ((4 * pi * distance) ^ 2);
+    % Apply attenuation factor
+    receivedPowerWatts = receivedPowerWattsFreeSpace .* attenuationFactors;
 
-    % Apply attenuation
-    receivedPowerWattsAttenuated = receivedPowerWattsFreeSpace / attenuation;
-
-    % Convert received power from Watts to dBm
-    receivedPowerDbm = 10 * log10(receivedPowerWattsAttenuated * 1000);
+    % Convert received power back to dBm
+    receivedPowerDbm = 10 * log10(receivedPowerWatts) + 30;
 end
