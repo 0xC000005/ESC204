@@ -2,7 +2,13 @@
 
 This project aims to simulate the signal strength of a Bluetooth Low Energy (BLE) device inside a garbage and case setup. The simulation takes into account the attenuation due to the case and garbage materials.
 
+The project also includes a Streamlit app for visualizing the GNSS GPU log csv file.
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://0xc000005-esc204-streamlit-app-kq3yff.streamlit.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+[Screenshot](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot.png)
 
 ## File Structure
 
