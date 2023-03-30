@@ -1,12 +1,8 @@
 function plotSignalStrengthSimulationWithSlider(garbage_geometry, case_geometry)
-    % Load sample garbage and case geometry data
-    load('garbage.mat'); % Replace this with your garbage geometry
-    load('case.mat'); % Replace this with your case geometry
-
     % Transmitter characteristics
     transmitterPowerDbm = 20; % 20 dBm transmission
-    transmitterGain = 10; % 10 dB antenna gain
-    receiverGain = 20; % 20 dB gain on reception
+    transmitterGain = 5; % 10 dB antenna gain
+    receiverGain = 10; % 20 dB gain on reception
 
     % Additional attenuation factors for case and garbage (unit-less)
     attenuationPLA = 3; % Adjust based on the specific case material
@@ -28,6 +24,9 @@ function plotSignalStrengthSimulationWithSlider(garbage_geometry, case_geometry)
 
     % Calculate the signal strength at each point in the grid
     signalStrength = simulateSignalStrength(transmitterPowerDbm, transmitterGain, receiverGain, distances, attenuationCase * attenuationGarbage);
+
+    % Calculate the maximum range the receiver can transmit a 40 kB csv file
+    maxRange = calculateMaxRange(transmitterPowerDbm, transmitterGain, receiverGain, attenuationCase * attenuationGarbage);
 
     % Create a figure for the 3D signal strength plot
     fig = figure;
@@ -56,13 +55,27 @@ function plotSignalStrengthSimulationWithSlider(garbage_geometry, case_geometry)
         xlabel(ax, 'X');
         ylabel(ax, 'Y');
         zlabel(ax, 'Z');
-        title(ax, sprintf('Signal Strength (dBm) at Radius %.2f', radius));
+        title(ax, sprintf('Signal Strength (dBm) at Radius %.2f, Max Range: %.2f m', radius, maxRange));
         rotate3d(ax, 'on');
 
-        % Plot the case and garbage objects (assuming they are surface objects)
+        % Plot the case and garbage objects (assuming they are mesh objects)
         hold(ax, 'on');
-        surf(ax, case_geometry.X, case_geometry.Y, case_geometry.Z); % Replace 'case' with the variable containing the case geometry
-        surf(ax, garbage_geometry.X, garbage_geometry.Y, garbage_geometry.Z); % Replace 'garbage' with the variable containing the garbage geometry
+        case_mesh = mesh(ax, case_geometry.X, case_geometry.Y, case_geometry.Z); % Replace 'case' with the variable containing the case geometry
+        case_mesh.FaceAlpha = 0.1; % Adjust transparency
+        case_mesh.FaceColor = [0, 0, 1];
+        case_mesh.EdgeColor = 'k';
+
+        garbage_mesh = mesh(ax, garbage_geometry.X, garbage_geometry.Y, garbage_geometry.Z); % Replace 'garbage' with the variable containing the garbage geometry
+        garbage_mesh.FaceAlpha = 0.1; % Adjust transparency
+        garbage_mesh.FaceColor = [1, 0, 0];
+        garbage_mesh.EdgeColor = 'k';
+
+        % Create a dedicated legend
+        legend(ax, [case_mesh, garbage_mesh], {'Case', 'Garbage'}, 'Location', 'best');
+
         hold(ax, 'off');
     end
+
 end
+
+
