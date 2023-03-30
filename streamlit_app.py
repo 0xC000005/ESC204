@@ -1,69 +1,60 @@
 import streamlit as st
 import pandas as pd
-import time
+import numpy as np
 import folium
 from streamlit_folium import folium_static
-from folium.plugins import TimestampedGeoJson
+from datetime import datetime
 
+# Title and objective
+st.title("GNSS Location Movement Logs Visualization")
+st.write("Visualize GNSS location movement logs interactively with Streamlit")
 
-def process_csv_data(csv_string):
-    df = pd.read_csv(pd.StringIO(csv_string), parse_dates=['timestamp'])
-    return df
+# File uploader
+uploaded_file = st.sidebar.file_uploader("Upload your GNSS log file in CSV format", type=["csv"])
 
+if uploaded_file:
+    # Read and parse CSV
+    data = pd.read_csv(uploaded_file)
+    data["timestamp"] = pd.to_datetime(data["timestamp"])
 
-# Rest of the code remains unchanged.
+    # Filter options
+    st.sidebar.header("Filter Options")
+    start_date = st.sidebar.date_input("Start date", min_value=data["timestamp"].min().date())
+    end_date = st.sidebar.date_input("End date", max_value=data["timestamp"].max().date(), value=data["timestamp"].max().date())
+    fix_status_filter = st.sidebar.selectbox("Filter by fix status", options=sorted(data["fix_status"].unique()), index=0)
+    min_satellites = st.sidebar.slider("Minimum number of satellites in use", min_value=data["satellites_in_use"].min(), max_value=data["satellites_in_use"].max(), value=data["satellites_in_use"].min())
 
+    # Filter data
+    filtered_data = data[(data["timestamp"].dt.date >= start_date) & (data["timestamp"].dt.date <= end_date) & (data["fix_status"] == fix_status_filter) & (data["satellites_in_use"] >= min_satellites)]
 
-def plot_movement(df, point_radius):
-    m = folium.Map(location=[df['latitude'].mean(), df['longitude'].mean()], zoom_start=13)
+    # Display summary statistics
+    st.header("Summary Statistics")
+    st.write("Total distance traveled: TODO")
+    st.write("Average speed: TODO")
+    st.write("Duration of the trip: TODO")
 
-    features = [
-        {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [row['longitude'], row['latitude']]
-            },
-            'properties': {
-                'times': [row['timestamp'].strftime('%Y-%m-%dT%H:%M:%SZ')],
-                'style': {'radius': point_radius, 'color': 'blue'}
-            }
-        }
-        for _, row in df.iterrows()
-    ]
+    # Display table
+    st.header("Filtered Data")
+    st.write(filtered_data)
 
-    TimestampedGeoJson(
-        {'type': 'FeatureCollection', 'features': features},
-        period='PT1M',
-        add_last_point=True,
-        auto_play=False,
-        loop=False,
-        max_speed=1,
-        loop_button=True,
-        date_options='YYYY-MM-DD HH:mm:ss',
-        time_slider_drag_update=True,
-    ).add_to(m)
+    # Display map
+    st.header("Interactive Map Visualization")
+    map_center = [filtered_data["latitude"].mean(), filtered_data["longitude"].mean()]
+    m = folium.Map(location=map_center, zoom_start=14)
+
+    # Plot tracker path
+    path = filtered_data[["latitude", "longitude"]].values.tolist()
+    folium.PolyLine(path, color="blue", weight=5, opacity=0.7).add_to(m)
+
+    # Add markers for each point
+    for lat, lon, time in zip(filtered_data["latitude"], filtered_data["longitude"], filtered_data["timestamp"]):
+        folium.Marker(
+            location=[lat, lon],
+            icon=None,
+            popup=f"Time: {time}"
+        ).add_to(m)
 
     folium_static(m)
-
-
-def main():
-    st.set_page_config(page_title="GNSS Module Visualization", layout="wide")
-    st.title("GNSS Module Visualization")
-    st.markdown("""
-    Welcome to the GNSS Module Visualization app!
-    Please paste your CSV formatted text below, and press "Display" to show the animated movement.
-    """)
-
-    csv_input = st.text_area("Paste your CSV formatted text here:")
-    display_button = st.button("Display")
-
-    if display_button and csv_input:
-        st.markdown("### Map Visualization")
-        df = process_csv_data(csv_input)
-        point_radius = st.slider("Point size", min_value=1, max_value=50, value=10)
-        plot_movement(df, point_radius)
-
-
-if __name__ == "__main__":
-    main()
+else:
+    st.warning("Please upload a GNSS log file in CSV format")
+    st.stop()
