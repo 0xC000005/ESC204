@@ -8,7 +8,7 @@ The project also includes a Streamlit app for visualizing the GNSS GPU log csv f
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-[Screenshot](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot.png)
+![Simulation Screenshot](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot.png)
 
 ## File Structure
 
