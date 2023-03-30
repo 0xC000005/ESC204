@@ -1,8 +1,8 @@
 function plotSignalStrengthSimulationWithSlider(garbage_geometry, case_geometry)
     % Transmitter characteristics
     transmitterPowerDbm = 20; % 20 dBm transmission
-    transmitterGain = 5; % 10 dB antenna gain
-    receiverGain = 10; % 20 dB gain on reception
+    transmitterGain = 5; % 5 dB antenna gain
+    receiverGain = 10; % 10 dB gain on reception
 
     % Additional attenuation factors for case and garbage (unit-less)
     attenuationPLA = 3; % Adjust based on the specific case material
