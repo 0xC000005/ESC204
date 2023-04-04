@@ -60,7 +60,9 @@ function plotSignalStrengthSimulationWithSlider(garbage_geometry, case_geometry)
 
         % Plot the case and garbage objects (assuming they are mesh objects)
         hold(ax, 'on');
-        case_mesh = mesh(ax, case_geometry.X, case_geometry.Y, case_geometry.Z); % Replace 'case' with the variable containing the case geometry
+        case_mesh = patch(ax, 'Faces', case_geometry.faces, 'Vertices', case_geometry.vertices);
+        case_mesh.FaceColor = 'blue';
+        case_mesh.FaceAlpha = 0.3;
         case_mesh.FaceAlpha = 0.1; % Adjust transparency
         case_mesh.FaceColor = [0, 0, 1];
         case_mesh.EdgeColor = 'k';

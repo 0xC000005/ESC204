@@ -6,6 +6,7 @@ from streamlit_folium import folium_static
 from datetime import datetime
 from geopy.distance import geodesic
 
+
 def display_example_csv():
     st.markdown("### Example CSV format")
     st.markdown(
@@ -147,6 +148,7 @@ def display_map(filtered_data):
 
     folium_static(m)
 
+
 def display_image_with_caption(image_url, caption, width=None):
     if width is not None:
         st.image(image_url, caption=caption, width=width)
@@ -186,6 +188,6 @@ def main():
 
     display_example_csv()
 
+
 if __name__ == "__main__":
     main()
-
