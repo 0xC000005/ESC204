@@ -6,6 +6,7 @@ from streamlit_folium import folium_static
 from datetime import datetime
 from geopy.distance import geodesic
 
+
 def display_example_csv():
     st.markdown("### Example CSV format")
     st.markdown(
@@ -147,6 +148,7 @@ def display_map(filtered_data):
 
     folium_static(m)
 
+
 def display_image_with_caption(image_url, caption, width=None):
     if width is not None:
         st.image(image_url, caption=caption, width=width)
@@ -166,12 +168,6 @@ def main():
     # Display author information and link to the author's GitHub page
     display_author_info()
     # Display the example CSV file
-    display_example_csv()
-    # Display the image under the title
-    image_url = "https://media.discordapp.net/attachments/1066113632859082773/1090371489439694949/IMG_7075.jpg?width=502&height=670"  # Replace this with the URL to your image file
-    caption = "© 2023 Lincoln D. Macdonald. All rights reserved."
-    display_image_with_caption(image_url, caption, width=300)
-
 
     uploaded_file = st.sidebar.file_uploader("Upload your GNSS log file in CSV format", type=["csv"])
 
@@ -190,6 +186,8 @@ def main():
         st.warning("Please upload a GNSS log file in CSV format")
         st.stop()
 
+    display_example_csv()
+
+
 if __name__ == "__main__":
     main()
-
