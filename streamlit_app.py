@@ -168,6 +168,7 @@ def main():
     # Display author information and link to the author's GitHub page
     display_author_info()
     # Display the example CSV file
+    display_example_csv()
 
     uploaded_file = st.sidebar.file_uploader("Upload your GNSS log file in CSV format", type=["csv"])
 
@@ -186,7 +187,6 @@ def main():
         st.warning("Please upload a GNSS log file in CSV format")
         st.stop()
 
-    display_example_csv()
 
 
 if __name__ == "__main__":
