@@ -53,7 +53,16 @@ Version 3 of the website focused on refining the app and ensuring it functioned 
 
 In this version, the major change is to fix the map disappearing issue by switching from pydeck to folium. We removed the using timeslider function and live updating of the map. After consideration, we think that the live updating of the map is not necessary, as it doesn't provide any additional information. Instead, we used a static update button instead. The update button allows users to update the map with the new filtering options. After user filtered the data, we simply re-render the map with the new data, which is technically way easier than live updating the map. Although visually speaking, the live updating of the map is more appealing, the technical difficulty of implementing doesn't justify it.
 
+During our testing visualization of the GNSS data from our tracker prototype, we found that the data is not ver accurate in the sense that it is both shifted and scaled. We believe that this is due to the GNSS module we used, as ESC204 students from last year also reported similar issues according to a TA. To address this issue, a helper script were also developed to help calibrate the raw GNSS data by allowing horizontal, vertical, and temporal offsets to be applied to the data. The scripts were written in Python and can be found in the [adjust_gps.py](https://github.com/0xC000005/ESC204/blob/main/adjust_gps.py)
 
+Note that this script is not part of the Streamlit app, and it is only used to calibrate the raw GNSS data. The calibrated data is then used to generate the CSV file that is uploaded to the Streamlit app. The design phlosophy is that the Streamlit app should only be responsible for visualizing the data, and it should not be responsible for offsetting the data, as otherwise we created a responsibility overlap between the app and the tracker, as acquire accurate GNSS data is the responsibility of the tracker.
 
-Besides the above functionalities, helper scripts were also developed to help calibrate the raw GNSS data by allowing horizontal, vertical, and temporal offsets to be applied to the data. The scripts were written in Python and can be found in the [adjust_gps.py](https://github.com/0xC000005/ESC204/blob/main/adjust_gps.py)
+## Future Development
+
+Although after version 3, all initial design requirements are met, there are still many features that can be added to the app to further enhance the user experience. Some of the features that can be added in the future are:
+- Add more filtering options, such as filtering every nth data point
+- Add more visualization options, such as visualizing the signal strength and using heatmaps to visualize the density of the garbage routes
+- To allow user to download the exported data
+- To allow user to export the map as an image
+- To allow user to export filtered data as a CSV file
 
