@@ -72,7 +72,7 @@ The signal calculation, however, doesn't take into account the material composit
 Commit: `ec7254278a8b2b3bb4af3f80805467edc599b981`
 
 ### Overview
-![]()
+![](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_8.png)
 In this version, we start to consider the geometry of the case and the garbage. The main goal of this version is to provide a more accurate signal strength test by taking into account the geometry of the case and the garbage. Note that the material composition of the case and the garbage is not considered in this version. We also improve the UI of the simulation by adding a slider to allow users to change how far radius the signal strength is to be calculated and plotted. 
 
 
