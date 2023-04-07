@@ -23,6 +23,17 @@ The prototype also provide us an opportunity to gain more understanding on the p
 
 A requirement for the prototype is developed based on the purpose of the prototype. The requirement is then used to guide the development of the prototype.
 
+| Feature Name               | Requirement                                      | Consideration                                                                                                                                                                                  |
+|----------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GNSS Data Upload           | Allow users to upload GNSS log files             | It must support at lease one mainstream file formats (e.g., GPX, KML, CSV) and handle large datasets, since this is the expect output of the tracker in terms of the data format and data size |
+| Map-based Visualization    | Display GNSS data on an interactive map          | Must be able to utilize a high-quality map service (e.g., OpenStreetMap, Google Maps) for accurate representation of the tracker's location visulially                                         |
+| Data Filtering             | Provide filtering options for GNSS data          | It need include options for filtering by time, satellite system, signal strength, etc.                                                                                                         |
+| Data Export                | Allow users to export filtered/processed data    | It could support multiple export formats (e.g., CSV, JSON, KML) and enable selective data export                                                                                               |
+| Performance Optimization   | Ensure smooth performance for large datasets     | It must implement efficient data processing and visualization techniques to be efficient                                                                                                       |
+| User Interface & Experience | Develop an intuitive and easy-to-use interface   | It must prioritize a clean and modern design that is responsive and visually appealing                                                                                                         |
+
+
+
 ## Version 1
 Commit: `25ab82ec3fd18da672e6050514ef96e07ee9c433`
 ![](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_1.png)
