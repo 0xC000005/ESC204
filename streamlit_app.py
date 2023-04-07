@@ -34,6 +34,17 @@ def display_example_csv():
         """
     )
 
+# allow user to download example csv from a weblink by using st.download_button
+def download_example_csv():
+    csv = 'https://raw.githubusercontent.com/0xC000005/ESC204/main/example_input.csv'
+    # st.markdown("### Download Example CSV")
+    st.markdown("Click the button below to download the example CSV file.")
+    st.download_button(
+        label="Download CSV",
+        data=csv,
+        file_name='example_input.csv',
+        mime='text/csv'
+    )
 
 def read_data(uploaded_file):
     data = pd.read_csv(uploaded_file)
@@ -169,6 +180,8 @@ def main():
     display_author_info()
     # Display the example CSV file
     display_example_csv()
+    # Display download button for the example CSV file
+    download_example_csv()
 
     uploaded_file = st.sidebar.file_uploader("Upload your GNSS log file in CSV format", type=["csv"])
 

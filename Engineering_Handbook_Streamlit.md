@@ -1,5 +1,7 @@
 # GNSS Visualizing Streamlit Website Engineering Handbook
 
+Access the Streamlit app here: https://0xc000005-esc204-streamlit-app-kq3yff.streamlit.app/
+
 ## Purpose of the Prototype
 1. To communicate to stakeholders how the data collected from our garbage tracker will look like
 2. To provide a basic, flexible and open-sourced platform for the stakeholders to interact with the data interpolation, and to enable further customized data analysis by the stakeholders
