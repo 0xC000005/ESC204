@@ -1,10 +1,8 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
 import folium
-from streamlit_folium import folium_static
-from datetime import datetime
+import pandas as pd
+import streamlit as st
 from geopy.distance import geodesic
+from streamlit_folium import folium_static
 
 
 def display_example_csv():
@@ -35,31 +33,10 @@ def display_example_csv():
     )
 
 
-# load example csv from a weblink
-def load_example_csv():
-    csv = 'https://raw.githubusercontent.com/0xC000005/ESC204/main/example_input.csv'
-    data = pd.read_csv(csv)
-    data["timestamp"] = pd.to_datetime(data["timestamp"])
-    # Convert latitude and longitude to float
-    data["latitude"] = data["latitude"].astype(float)
-    data["longitude"] = data["longitude"].astype(float)
-    # Convert fix_status to int
-    data["fix_status"] = data["fix_status"].astype(int)
-    # Convert HDOP to float
-    data["HDOP"] = data["HDOP"].astype(float)
-    # Convert satellites_in_use to int, not numpy.int32
-    data["satellites_in_use"] = data["satellites_in_use"].astype(int)
-
-    # Filter out invalid data
-    data = data[(data["latitude"] != 0) & (data["longitude"] != 0)]
-    # Filter out data with NaN values
-    data = data.dropna()
-    return data.to_csv().encode('utf-8')
-
-
 # allow user to download example csv from a weblink by using st.download_button
 def download_example_csv():
-    csv = load_example_csv()
+    csv = read_data('https://raw.githubusercontent.com/0xC000005/ESC204/main/example_input.csv').to_csv().encode(
+        'utf-8')
     # st.markdown("### Download Example CSV")
     st.markdown("Click the button below to download the example CSV file.")
     st.download_button(
