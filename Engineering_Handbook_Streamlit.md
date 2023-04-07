@@ -6,16 +6,14 @@
 3. To explore different ways to utilize the data collected from the garbage tracker to better understand the garbage problem in Accra, Ghana
 
 ## Requirement Considered
-| Feature Name               | Requirement                                      | Consideration                                                                                   |
-|----------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| GNSS Data Upload           | Allow users to upload GNSS log files             | Support multiple file formats (e.g., GPX, KML, CSV) and handle large datasets                   |
-| Map-based Visualization    | Display GNSS data on an interactive map          | Utilize a high-quality map service (e.g., OpenStreetMap, Google Maps) for accurate representation|
-| Data Filtering             | Provide filtering options for GNSS data          | Include options for filtering by time, satellite system, signal strength, etc.                  |
-| Data Export                | Allow users to export filtered/processed data    | Support multiple export formats (e.g., CSV, JSON, KML) and enable selective data export          |
-| Performance Optimization   | Ensure smooth performance for large datasets     | Implement efficient data processing and visualization techniques                                 |
-| User Interface & Experience | Develop an intuitive and easy-to-use interface   | Prioritize a clean and modern design that is responsive and visually appealing                    |
-
-Besides the above functionalities, helper scripts were also developed to help calibrate the raw GNSS data by allowing horizontal, vertical, and temporal offsets to be applied to the data. The scripts were written in Python and can be found in the [adjust_gps.py](https://github.com/0xC000005/ESC204/blob/main/adjust_gps.py)
+| Feature Name               | Requirement                                      | Consideration                                                                                                                                                                                  |
+|----------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GNSS Data Upload           | Allow users to upload GNSS log files             | It must support at lease one mainstream file formats (e.g., GPX, KML, CSV) and handle large datasets, since this is the expect output of the tracker in terms of the data format and data size |
+| Map-based Visualization    | Display GNSS data on an interactive map          | Must be able to utilize a high-quality map service (e.g., OpenStreetMap, Google Maps) for accurate representation of the tracker's location visulially                                         |
+| Data Filtering             | Provide filtering options for GNSS data          | It need include options for filtering by time, satellite system, signal strength, etc.                                                                                                         |
+| Data Export                | Allow users to export filtered/processed data    | It could support multiple export formats (e.g., CSV, JSON, KML) and enable selective data export                                                                                               |
+| Performance Optimization   | Ensure smooth performance for large datasets     | It must implement efficient data processing and visualization techniques to be efficient                                                                                                       |
+| User Interface & Experience | Develop an intuitive and easy-to-use interface   | It must prioritize a clean and modern design that is responsive and visually appealing                                                                                                         |
 
 
 ## GNSS Visualizing Streamlit Website: Version 1
@@ -24,31 +22,38 @@ The main features included in this version are:
 
 - CSV data input as a String
 - No filtering options
-- Displaying summary statistics
-- Displaying filtered data
-- Map visualization
+- Visualizing the movement both in a static map and an animation
 
-In the first version of the prototype, the main goal was to create a simple web-based tool for uploading GNSS log files in CSV format, processing the data, and visualizing the movements on an interactive map. The uploaded CSV data was processed using the Pandas library, and map visualization was achieved using Streamlit's built-in map functionality and the Pydeck library.
+The first design is simply a minimum viable product (MVP) that allows users to input a CSV string and visualize the movement of the garbage tracker. The main purpose of this version is to demonstrate the basic functionality of the app and to provide a starting point for further development. 
+The idea is that this version will serve as a framework for the future development of the app. The app will be further developed to include more features and functionalities, and to improve the user experience, by simply adding more function calls to the main() function.
 
-The user interface provided a text area for pasting CSV-formatted data and two buttons: "Display" and "Replay Animation." The "Display" button generated a static map visualization, showing the entire movement track, and a table displaying the timestamp and Horizontal Dilution of Precision (HDOP) as a representation of signal strength. The "Replay Animation" button played an animation of the GNSS module's movement on the map, simulating the movement's progression.
-
-Although the prototype offered basic functionality for GNSS data visualization, it served as a foundation for further improvements, such as additional data filtering, support for different file formats, and more advanced visualization techniques.
+Since this is an MVP, we made several intentional design choice to reduce the complexity of the app. For example, we only allow users to input a CSV string, and we don't provide any filtering options. The reason is that we want to focus on the core functionality of the app, which is to visualize the movement of the garbage tracker. One of which is how to take the input csv. We decided to take the input as a string, instead of a file, because it is easier to implement. The reason is that we can simply use the st.text_input() function to take the input, so that we don't need to worry about the technical complexity of file uploading, caching, etc.
 
 ## GNSS Visualizing Streamlit Website: Version 2
 
 Version 2 of the website introduced additional features to enhance the user experience and provide more detailed information. The main improvements and changes in this version are:
 
-- Added a time slider for data filtering
-- Fixed map disappearing issue after dragging the slider
-- Improved input display and slider functionality
-- Enhanced the overall user interface
+- Added a time slider for data filtering, and live updating of the map as the slider is dragged (Failed)
+- Enhanced the overall user interface by providing helper information 
+
+In this version, we try to add more features to the app to reach the initial design requirement. The main feature added in this version is the time slider. The time slider allows users to filter the data by time, and to visualize the movement of the garbage tracker at a specific time.
+
+The problem is that the map disappears after dragging the slider. This is because the map is rendered using pydeck, which is a Python library for creating interactive maps. The map is rendered as a static image, and the slider is implemented using Streamlit's slider widget. When the slider is dragged, the map is re-rendered, which causes the map to disappear. 
+To fix this issue, the map is now rendered using folium, which require major refactoring of the code. This basically means that the version 1 of the app is no longer useful, and the app is rewritten from scratch to make version 3. 
 
 ## GNSS Visualizing Streamlit Website: Version 3
 
 Version 3 of the website focused on refining the app and ensuring it functioned smoothly. The main changes and enhancements included in this version are:
 
-- Switched from pydeck to folium for map visualization
-- Removed redundant main() function
+- Refactor the code to switch from pydeck to folium for map visualization, also making the code more modular and readable
+- Removed the using timeslider function and live updating of the map
+- Added a sidebar for uploading CSV and filtering data
+- Added a display bottom for rendering the filtered location on the map
 - Changed the example CSV position
 
-Throughout the development process, smaller changes were also made to improve the app's performance, fix issues, and optimize the user experience.
+In this version, the major change is to fix the map disappearing issue by switching from pydeck to folium. We removed the using timeslider function and live updating of the map. After consideration, we think that the live updating of the map is not necessary, as it doesn't provide any additional information. Instead, we used a static update button instead. The update button allows users to update the map with the new filtering options. After user filtered the data, we simply re-render the map with the new data, which is technically way easier than live updating the map. Although visually speaking, the live updating of the map is more appealing, the technical difficulty of implementing doesn't justify it.
+
+
+
+Besides the above functionalities, helper scripts were also developed to help calibrate the raw GNSS data by allowing horizontal, vertical, and temporal offsets to be applied to the data. The scripts were written in Python and can be found in the [adjust_gps.py](https://github.com/0xC000005/ESC204/blob/main/adjust_gps.py)
+
