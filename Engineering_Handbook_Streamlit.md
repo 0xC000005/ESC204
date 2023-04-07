@@ -3,23 +3,27 @@
 Access the Streamlit app here: https://0xc000005-esc204-streamlit-app-kq3yff.streamlit.app/
 Access the repository here: https://github.com/0xC000005/ESC204
 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Purpose of the Prototype](#purpose-of-the-prototype)
+3. [Requirement Considered](#requirement-considered)
+4. [Version 1: Initial MVP Prototype](#Version-1)
+5. [Version 2: Updated Prototype](#Version-2)
+6. [Version 3: Final Prototype](#Version-3)
+7. [Future Work](#future-work)
+
 ## Purpose of the Prototype
 1. To communicate to stakeholders how the data collected from our garbage tracker will look like
 2. To provide a basic, flexible and open-sourced platform for the stakeholders to interact with the data interpolation, and to enable further customized data analysis by the stakeholders
 3. To explore different ways to utilize the data collected from the garbage tracker to better understand the garbage problem in Accra, Ghana
 
+The prototype also provide us an opportunity to gain more understanding on the performance of the tracker. We successfully used prototype to spot issues with the tracker, such as its inaccuracy.
+
 ## Requirement Considered
-| Feature Name               | Requirement                                      | Consideration                                                                                                                                                                                  |
-|----------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GNSS Data Upload           | Allow users to upload GNSS log files             | It must support at lease one mainstream file formats (e.g., GPX, KML, CSV) and handle large datasets, since this is the expect output of the tracker in terms of the data format and data size |
-| Map-based Visualization    | Display GNSS data on an interactive map          | Must be able to utilize a high-quality map service (e.g., OpenStreetMap, Google Maps) for accurate representation of the tracker's location visulially                                         |
-| Data Filtering             | Provide filtering options for GNSS data          | It need include options for filtering by time, satellite system, signal strength, etc.                                                                                                         |
-| Data Export                | Allow users to export filtered/processed data    | It could support multiple export formats (e.g., CSV, JSON, KML) and enable selective data export                                                                                               |
-| Performance Optimization   | Ensure smooth performance for large datasets     | It must implement efficient data processing and visualization techniques to be efficient                                                                                                       |
-| User Interface & Experience | Develop an intuitive and easy-to-use interface   | It must prioritize a clean and modern design that is responsive and visually appealing                                                                                                         |
 
+A requirement for the prototype is developed based on the purpose of the prototype. The requirement is then used to guide the development of the prototype.
 
-## GNSS Visualizing Streamlit Website: Version 1
+## Version 1
 Commit: `25ab82ec3fd18da672e6050514ef96e07ee9c433`
 ![](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_1.png)
 
@@ -34,7 +38,7 @@ The idea is that this version will serve as a framework for the future developme
 
 Since this is an MVP, we made several intentional design choice to reduce the complexity of the app. For example, we only allow users to input a CSV string, and we don't provide any filtering options. The reason is that we want to focus on the core functionality of the app, which is to visualize the movement of the garbage tracker. One of which is how to take the input csv. We decided to take the input as a string, instead of a file, because it is easier to implement. The reason is that we can simply use the st.text_input() function to take the input, so that we don't need to worry about the technical complexity of file uploading, caching, etc.
 
-## GNSS Visualizing Streamlit Website: Version 2
+## Version 2
 Commit: `25b585b293b5553ba5112f53547bb4c97e4b9c4b`
 ![](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_2.png)
 
@@ -48,7 +52,7 @@ In this version, we try to add more features to the app to reach the initial des
 The problem is that the map disappears after dragging the slider. This is because the map is rendered using pydeck, which is a Python library for creating interactive maps. The map is rendered as a static image, and the slider is implemented using Streamlit's slider widget. When the slider is dragged, the map is re-rendered, which causes the map to disappear. 
 To fix this issue, the map is now rendered using folium, which require major refactoring of the code. This basically means that the version 1 of the app is no longer useful, and the app is rewritten from scratch to make version 3. 
 
-## GNSS Visualizing Streamlit Website: Version 3
+## Version 3
 Commit: `d2ffaeec5c47dad08acf694af7aa11689c34dc87`
 ![](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_3.PNG)
 
@@ -75,11 +79,12 @@ Note that this script is not part of the Streamlit app, and it is only used to c
 After using the script to manually calibrate the data, we found that the data is now accurate enough to be visualized on the map. 
 ![calibrated location, note that the path matches the shape of Queen's Park](https://raw.githubusercontent.com/0xC000005/ESC204/main/handbook/img_7.PNG)
 
-## Future Development
+## Future Work
 
 Although after version 3, all initial design requirements are met, there are still many features that can be added to the app to further enhance the user experience. Some of the features that can be added in the future are:
 - Add more filtering options, such as filtering every nth data point
 - Add more visualization options, such as visualizing the signal strength and using heatmaps to visualize the density of the garbage routes
 - To allow user to export the map as an image
 - To allow user to export filtered data as a CSV file
+
 
