@@ -57,6 +57,7 @@ A design choice was made to only focus on the plotting and the making of geometr
 Commit: `28f266b04f1f509384a4321ceef909410f7272fa`
 
 ### Overview
+![](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot.png)
 In this version, the signal strength calculation has been updated to improve the accuracy of the simulation. The main goal of this version is to provide a more reliable signal strength test.
 The signal calculation, however, doesn't take into account the material composition of the case and the garbage, nor the different geometry of the case. This is because the technical difficulty of the signal strength calculation is beyond the ability of the version 1 and 2 contributor. Instead, what we did is to calculate a uniform signal permittivity, which take into account the material composition and the geometry of the case and the garbage. This is a temporary solution to the problem, and the signal strength calculation will be improved in the future versions.
 
@@ -71,6 +72,7 @@ The signal calculation, however, doesn't take into account the material composit
 Commit: `ec7254278a8b2b3bb4af3f80805467edc599b981`
 
 ### Overview
+![]()
 In this version, we start to consider the geometry of the case and the garbage. The main goal of this version is to provide a more accurate signal strength test by taking into account the geometry of the case and the garbage. Note that the material composition of the case and the garbage is not considered in this version. We also improve the UI of the simulation by adding a slider to allow users to change how far radius the signal strength is to be calculated and plotted. 
 
 
