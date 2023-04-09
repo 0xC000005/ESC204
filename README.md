@@ -64,9 +64,6 @@ The project also includes a Streamlit app for visualizing the GNSS GPS log csv f
 - `updatePlot.m`: MATLAB function to update the plot of the signal strength simulation.
 - `GNSS_data`: Folder containing the GNSS GPS log csv files.
 - `handbook`: Folder containing the artifacts for the Engineering Handbooks.
-
-## Installation
-
 1. Clone the repository.
 2. Install Python dependencies using `pip install -r requirements.txt`.
 3. Run the MATLAB scripts in the MATLAB environment.
@@ -76,6 +73,13 @@ The project also includes a Streamlit app for visualizing the GNSS GPS log csv f
 1. Run the `main.m` script in MATLAB to perform the signal strength simulation. This script uses the provided geometry files (`case.mat` and `garbage.mat`) and the signal strength simulation functions to generate a 3D plot of the signal strength within the garbage and case setup.
 
 2. Run the Streamlit app using `streamlit run streamlit_app.py` to visualize the simulation results. The Streamlit app provides an interactive visualization of the tracker movement data. You can also directly access the GNSS tool here: https://0xc000005-esc204-streamlit-app-kq3yff.streamlit.app/
+
+3. Run the `python adjust_gps.py input_file output_file correct_latitude correct_longitude factor` script to adjust the GNSS GPS path log. This script takes in the GNSS GPS path log csv file and the stretch factor as input and outputs a new csv file with the adjusted path.
+
+4. Run the `convertL76xToStreamlitFormat.py` script to convert the L76x format GNSS GPS path log to a Streamlit compatible format. This script takes in the L76x format GNSS GPS path log csv file and outputs a new csv file with the adjusted path. 
+
+5. Run the `calculateStretchFactor.py` script to calculate the stretch factor between GNSS GPS path log and the true path. This script takes in the GNSS GPS path log csv file and the true path csv file as input and outputs the stretch factor.
+
 
 ## Contributing
 
@@ -92,4 +96,3 @@ Please ensure that your code follows the project's coding standards and that you
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
