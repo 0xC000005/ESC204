@@ -8,10 +8,10 @@ function receivedPowerDbm = simulateSignalStrength(transmitterPowerDbm, transmit
     transmitterPowerMWatts = 10^(transmitterPowerDbm / 10);
 
     % Calculate the received power in watts using the free space path loss formula
-    receivedPowerMWattsFreeSpace = (transmitterPowerWatts * (10^(transmitterGain / 10)) * (10^(receiverGain / 10)) * (wavelength .^ 2)) ./ ((4 * pi * distances) .^ 2);
+    receivedPowerMWattsFreeSpace = (transmitterPowerMWatts * (10^(transmitterGain / 10)) * (10^(receiverGain / 10)) * (wavelength .^ 2)) ./ ((4 * pi * distances) .^ 2);
 
     % Apply attenuation factor
-    receivedPowerWatts = receivedPowerWattsFreeSpace .* attenuationFactors;
+    receivedPowerWatts = receivedPowerMWattsFreeSpace .* attenuationFactors;
 
     % Convert received power back to dBm
     receivedPowerDbm = 10 * log10(receivedPowerWatts);
