@@ -26,7 +26,6 @@ attenuationGarbage = 0.69 * attenuationOrganic + 0.1 * attenuationPlastic + 0.02
 distances = sqrt(X.^2 + Y.^2 + Z.^2);
 
 % Calculate the signal strength at each point in the grid
-attenuationCase * attenuationGarbage
 signalStrength = simulateSignalStrength(transmitterPowerDbm, transmitterGain, receiverGain, distances, attenuationCase * attenuationGarbage);
 
 % Calculate the maximum range the receiver can transmit a 40 kB csv file

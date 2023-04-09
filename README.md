@@ -15,33 +15,56 @@ The project also includes a Streamlit app for visualizing the GNSS GPS log csv f
 ```angular2html
 .
 ├── .idea
+├── GNSS_data
+├── handbook
 ├── venv
+├── adjust_gps.py
 ├── calculateMaxRange.m
+├── calculateStretchFactor.py
 ├── case.mat
+├── convertL76xToStreamlitFormat.py
+├── Engineering_Handbook_Signal_Simulation.md
+├── Engineering_Handbook_Streamlit.md
 ├── example_input.csv
 ├── garbage.mat
+├── generateCaseAndGarbage.m
 ├── main.m
 ├── plotSignalStrengthSimulationWithSlider.m
 ├── README.md
 ├── requirements.txt
+├── screenshot.png
+├── screenshot2.png
 ├── simulateSignalStrength.m
-└── streamlit_app.py
+├── streamlit_app.py
+└── updatePlot.m
 ```
 
 
-## Files Description
 
+## Files and Path Description
+
+- `adjust_gps.py`: Python script for shifting and stretching the GNSS GPS path log.
 - `calculateMaxRange.m`: MATLAB function to calculate the maximum range the receiver can transmit a 40 kB csv file within a specified time constraint.
+- `calculateStretchFactor.py`: Python script to calculate the stretch factor between GNSS GPS path log and the true path.
 - `case.mat`: MATLAB binary file containing the geometry of the case.
+- `convertL76xToStreamlitFormat.py`: Python script for converting the L76x format GNSS GPS path log to a Streamlit compatible format.
+- `Engineering_Handbook_Signal_Simulation.md`: Markdown file for the Engineering Handbook for Signal Simulation.
+- `Engineering_Handbook_Streamlit.md`: Markdown file for the Engineering Handbook for Streamlit app.
 - `example_input.csv`: Example input file with data for the simulation.
 - `garbage.mat`: MATLAB binary file containing the geometry of the garbage.
+- `generateCaseAndGarbage.m`: MATLAB script to generate case and garbage geometry.
 - `main.m`: MATLAB script for running the signal strength simulation.
 - `plotSignalStrengthSimulationWithSlider.m`: MATLAB function to plot the signal strength simulation with an interactive slider.
 - `README.md`: This README file.
 - `requirements.txt`: Python requirements for the Streamlit app.
+- `screenshot.png`: Screenshot of the signal strength simulation.
+- `screenshot2.png`: Screenshot of the Streamlit app.
 - `simulateSignalStrength.m`: MATLAB function to simulate the signal strength based on the given parameters.
-- `streamlit_app.py`: Python script for the Streamlit app visualization of the GNSS GPU log csv file .
-
+- `streamlit_app.py`: Python script for the Streamlit app visualization of the GNSS GPU log csv file.
+- `updatePlot.m`: MATLAB function to update the plot of the signal strength simulation.
+- `GNSS_data`: Folder containing the GNSS GPS log csv files.
+- `handbook`: Folder containing the artifacts for the Engineering Handbooks.
+- 
 ## Installation
 
 1. Clone the repository.
