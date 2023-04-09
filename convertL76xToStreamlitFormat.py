@@ -13,7 +13,7 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
     writer = csv.writer(outfile)
 
     # Write header to the output file
-    writer.writerow(['', 'timestamp', 'latitude', 'longitude', 'fix_status', 'HDOP', 'satellites_in_use'])
+    writer.writerow(['timestamp', 'latitude', 'longitude', 'fix_status', 'HDOP', 'satellites_in_use'])
 
     for index, row in enumerate(reader):
         # Extract the data from the input row
@@ -22,8 +22,8 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
         # Convert timestamp to the desired format
         converted_timestamp = starting_timestamp + timedelta(seconds=float(timestamp))
 
-        # Write the converted row to the output file
-        writer.writerow([index, converted_timestamp, latitude, longitude, fix_status, hdop, satellites_in_use])
+        # Write the converted row to the output file, excluding the index
+        writer.writerow([converted_timestamp, latitude, longitude, fix_status, hdop, satellites_in_use])
 
 if __name__ == '__main__':
     pass

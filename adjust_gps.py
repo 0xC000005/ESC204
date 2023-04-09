@@ -8,7 +8,6 @@ def adjust_gps(input_file, output_file, correct_latitude, correct_longitude, fac
         header = next(reader)
 
         data = [row for row in reader]
-
     original_latitude = float(data[0][1])
     original_longitude = float(data[0][2])
 
