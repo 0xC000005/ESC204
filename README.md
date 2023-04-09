@@ -9,7 +9,7 @@ The project also includes a Streamlit app for visualizing the GNSS GPS log csv f
 
 
 ![Simulation Screenshot](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot.png)
-
+![Website Screenshot](https://raw.githubusercontent.com/0xC000005/ESC204/main/screenshot2.png)
 ## File Structure
 
 ```angular2html
