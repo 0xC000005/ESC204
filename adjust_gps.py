@@ -20,8 +20,8 @@ def adjust_gps(input_file, output_file, correct_latitude, correct_longitude, fac
             longitude = float(row[2])
 
             # Calculate the stretched latitude and longitude
-            adjusted_latitude = correct_latitude + (latitude - correct_latitude) * factor
-            adjusted_longitude = correct_longitude + (longitude - correct_longitude) * factor
+            adjusted_latitude = correct_latitude + (latitude - original_latitude) * factor
+            adjusted_longitude = correct_longitude + (longitude - original_longitude) * factor
 
             writer.writerow([row[0], adjusted_latitude, adjusted_longitude] + row[3:])
 
