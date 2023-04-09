@@ -4,8 +4,8 @@ case_data = load('case.mat'); % Replace this with your case geometry
 
 % Transmitter characteristics
 transmitterPowerDbm = 10; % 20 dBm transmission
-transmitterGain = 2; % 2 dB antenna gain
-receiverGain = 3; % 3 dB gain on reception
+transmitterGain = 0; % 0 dB antenna gain
+receiverGain = 1; % 1 dB gain on reception
 
 % Additional attenuation factors for case and garbage (unit-less)
 attenuationPLA = 3; % Adjust based on the specific case material
@@ -26,6 +26,7 @@ attenuationGarbage = 0.69 * attenuationOrganic + 0.1 * attenuationPlastic + 0.02
 distances = sqrt(X.^2 + Y.^2 + Z.^2);
 
 % Calculate the signal strength at each point in the grid
+attenuationCase * attenuationGarbage
 signalStrength = simulateSignalStrength(transmitterPowerDbm, transmitterGain, receiverGain, distances, attenuationCase * attenuationGarbage);
 
 % Calculate the maximum range the receiver can transmit a 40 kB csv file
