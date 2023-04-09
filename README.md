@@ -64,7 +64,7 @@ The project also includes a Streamlit app for visualizing the GNSS GPS log csv f
 - `updatePlot.m`: MATLAB function to update the plot of the signal strength simulation.
 - `GNSS_data`: Folder containing the GNSS GPS log csv files.
 - `handbook`: Folder containing the artifacts for the Engineering Handbooks.
-- 
+
 ## Installation
 
 1. Clone the repository.
