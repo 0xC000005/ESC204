@@ -5,50 +5,10 @@ from geopy.distance import geodesic
 from streamlit_folium import folium_static
 
 
-def display_example_csv():
-    st.markdown("### Example CSV format")
-    st.markdown(
-        """
-        | timestamp          | latitude  | longitude  | fix_status | HDOP | satellites_in_use |
-        |--------------------|-----------|------------|------------|------|-------------------|
-        | 2023-03-28T09:00:00 | 43.662623 | -79.397066 |          3 |  1.2 |                 7 |
-        | 2023-03-28T09:00:10 | 43.662718 | -79.396846 |          3 |  1.1 |                 8 |
-        | 2023-03-28T09:00:20 | 43.662820 | -79.396640 |          3 |  1.0 |                 9 |
-        | 2023-03-28T09:00:30 | 43.662917 | -79.396458 |          2 |  1.1 |                 8 |
-        | 2023-03-28T09:00:40 | 43.663011 | -79.396249 |          2 |  1.2 |                 7 |
-        | 2023-03-28T09:00:50 | 43.663076 | -79.396079 |          1 |  1.3 |                 6 |
-        | 2023-03-28T09:01:00 | 43.663192 | -79.395890 |          3 |  1.2 |                 7 |
-        | 2023-03-28T09:01:10 | 43.663284 | -79.395698 |          2 |  1.3 |                 6 |
-        | 2023-03-28T09:01:20 | 43.663376 | -79.395495 |          3 |  1.1 |                 8 |
-        | 2023-03-28T09:01:30 | 43.663474 | -79.395321 |          2 |  1.2 |                 7 |
-        """
-    )
-    st.markdown(
-        """
-        **Fix status number representation:**
-        - 1: No fix
-        - 2: 2D fix
-        - 3: 3D fix
-        """
-    )
-
-
-# allow user to download example csv from a weblink by using st.download_button
-def download_example_csv():
-    csv = read_data('https://raw.githubusercontent.com/0xC000005/ESC204/main/example_input.csv').to_csv().encode(
-        'utf-8')
-    # st.markdown("### Download Example CSV")
-    st.markdown("Click the button below to download the example CSV file.")
-    st.download_button(
-        label="Download CSV",
-        data=csv,
-        file_name='example_input.csv',
-        mime='text/csv'
-    )
-
-
 def read_data(uploaded_file):
     data = pd.read_csv(uploaded_file)
+    if data.columns[0] == 'Unnamed: 0':
+        data = data.iloc[:, 1:]  # remove first column
     data["timestamp"] = pd.to_datetime(data["timestamp"])
     # Convert latitude and longitude to float
     data["latitude"] = data["latitude"].astype(float)
@@ -65,6 +25,34 @@ def read_data(uploaded_file):
     # Filter out data with NaN values
     data = data.dropna()
     return data
+
+
+EXAMPLE_DF = read_data('https://raw.githubusercontent.com/0xC000005/ESC204/main/GNSS_data/GPS_Test_1_Queens_Park_processed_date_offset_stretch.csv')
+
+
+def display_example_csv():
+    st.markdown("### Example CSV format")
+    st.dataframe(EXAMPLE_DF)
+    st.markdown(
+        """
+        **Fix status number representation:**
+        - 1: No fix
+        - 2: 2D fix
+        - 3: 3D fix
+        """
+    )
+
+
+# allow user to download example csv from a weblink by using st.download_button
+def download_example_csv():
+    # st.markdown("### Download Example CSV")
+    st.markdown("Click the button below to download the example CSV file.")
+    st.download_button(
+        label="Download CSV",
+        data=EXAMPLE_DF.to_csv(index=False).encode('utf-8'),
+        file_name='example_input.csv',
+        mime='text/csv'
+    )
 
 
 def display_filter_options(data):
